@@ -1,11 +1,114 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import LinkCard from '../components/LinkCard.astro';
+import { profile, sections } from '../data/links';
 ---
 
-<Layout>
-	<Welcome />
+<Layout title={profile.name} description={`${profile.name} (${profile.nameJa}) - ${profile.role}`}>
+  <div class="container">
+
+    <!-- Profile -->
+    <aside class="profile">
+      <img class="avatar" src={profile.avatarUrl} alt={profile.name} />
+      <div class="profile-info">
+        <p class="profile-name">{profile.name}</p>
+        <p class="profile-name-ja">{profile.nameJa}</p>
+        <p class="profile-role">{profile.role}</p>
+      </div>
+    </aside>
+
+    <!-- Link sections -->
+    <main class="sections">
+      {sections.map((section) => (
+        <section>
+          <p class="section-title">{section.title}</p>
+          <div class="card-grid">
+            {section.links.map((link) => (
+              <LinkCard {...link} />
+            ))}
+          </div>
+        </section>
+      ))}
+    </main>
+
+  </div>
 </Layout>
+
+<style>
+  .container {
+    width: 100%;
+    max-width: 860px;
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .profile {
+    position: sticky;
+    top: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .avatar {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--border);
+  }
+
+  .profile-name {
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .profile-name-ja {
+    font-size: 0.85rem;
+    color: var(--text-sub);
+    margin-top: 2px;
+  }
+
+  .profile-role {
+    font-size: 0.9rem;
+    color: var(--text-sub);
+  }
+
+  .sections {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+  }
+
+  @media (max-width: 640px) {
+    .container {
+      grid-template-columns: 1fr;
+    }
+    .profile {
+      position: static;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px;
+    }
+    .profile-info {
+      flex: 1;
+    }
+  }
+</style>

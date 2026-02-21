@@ -1,0 +1,69 @@
+---
+interface Props {
+  label: string;
+  url: string;
+  sub: string;
+  icon: string;
+}
+const { label, url, sub, icon } = Astro.props;
+const iconUrl = `https://cdn.simpleicons.org/${icon}`;
+---
+
+<a class="card" href={url} target="_blank" rel="noopener">
+  <span class="card-icon">
+    <img src={iconUrl} alt={label} width="20" height="20" />
+  </span>
+  <span class="card-label">{label}</span>
+  <span class="card-sub">{sub}</span>
+</a>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    text-decoration: none;
+    color: var(--text);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  .card-icon {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .card-icon img {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .card-icon img {
+      filter: brightness(0) invert(1);
+    }
+  }
+
+  .card-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .card-sub {
+    font-size: 0.72rem;
+    color: var(--text-sub);
+  }
+</style>
+
