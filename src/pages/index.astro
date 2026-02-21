@@ -1,5 +1,5 @@
 ---
-import { getCollection, render } from "astro:content";
+import { getCollection } from "astro:content";
 import LinkCard from "../components/LinkCard.astro";
 import Layout from "../layouts/Layout.astro";
 import { getGravatarDataUrl } from "../utils/getGravatar";
@@ -7,11 +7,6 @@ import { getGravatarDataUrl } from "../utils/getGravatar";
 // プロフィール + リンクセクション
 const siteEntries = await getCollection("site");
 const { profile, sections } = siteEntries[0].data;
-
-// 経歴 MDX
-const bioEntries = await getCollection("bio");
-const bio = bioEntries[0];
-const { Content: BioContent } = bio ? await render(bio) : { Content: null };
 
 const gravatarEmail = import.meta.env.GRAVATAR_EMAIL as string | undefined;
 const avatarUrl = gravatarEmail
@@ -29,6 +24,7 @@ const avatarUrl = gravatarEmail
         <p class="profile-name">{profile.name}</p>
         <p class="profile-name-ja">{profile.nameJa}</p>
         <p class="profile-role">{profile.role}</p>
+        <a href="/bio" class="bio-link">Bio →</a>
       </div>
     </aside>
 
@@ -45,14 +41,6 @@ const avatarUrl = gravatarEmail
         </section>
       ))}
 
-      <!-- Biography (src/content/bio/index.mdx) -->
-      {BioContent && (
-        <section class="bio">
-          <div class="bio-content">
-            <BioContent />
-          </div>
-        </section>
-      )}
     </main>
 
   </div>
@@ -120,39 +108,16 @@ const avatarUrl = gravatarEmail
     gap: 10px;
   }
 
-  .bio-content {
-    font-size: 0.9rem;
-    line-height: 1.75;
+  .bio-link {
+    font-size: 0.85rem;
+    color: var(--text-sub);
+    text-decoration: none;
+    margin-top: 4px;
+  }
+
+  .bio-link:hover {
     color: var(--text);
-  }
-
-  .bio-content :global(h2) {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 12px;
-  }
-
-  .bio-content :global(h3) {
-    font-size: 0.9rem;
-    font-weight: 600;
-    margin-bottom: 6px;
-    margin-top: 16px;
-  }
-
-  .bio-content :global(p) {
-    color: var(--text-sub);
-    margin-bottom: 8px;
-  }
-
-  .bio-content :global(ul) {
-    padding-left: 1.2em;
-    color: var(--text-sub);
-  }
-
-  .bio-content :global(hr) {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 20px 0;
+    text-decoration: underline;
   }
 
   @media (max-width: 640px) {

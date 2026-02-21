@@ -1,0 +1,172 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+import { getGravatarDataUrl } from "../utils/getGravatar";
+
+const siteEntries = await getCollection("site");
+const { profile } = siteEntries[0].data;
+
+const bioEntries = await getCollection("bio");
+const bio = bioEntries[0];
+const { Content: BioContent } = bio ? await render(bio) : { Content: null };
+
+const gravatarEmail = import.meta.env.GRAVATAR_EMAIL as string | undefined;
+const avatarUrl = gravatarEmail
+	? ((await getGravatarDataUrl(gravatarEmail)) ?? profile.avatarUrl)
+	: profile.avatarUrl;
+---
+
+<Layout
+	title={`Bio - ${profile.name}`}
+	description={`${profile.name} (${profile.nameJa}) - ${profile.role}`}
+	faviconUrl={avatarUrl}
+>
+	<div class="container">
+
+		<!-- Profile -->
+		<aside class="profile">
+			<a href="/" class="profile-link">
+				<img class="avatar" src={avatarUrl} alt={profile.name} />
+				<div class="profile-info">
+					<p class="profile-name">{profile.name}</p>
+					<p class="profile-name-ja">{profile.nameJa}</p>
+					<p class="profile-role">{profile.role}</p>
+				</div>
+			</a>
+		</aside>
+
+		<!-- Bio -->
+		<main class="bio-main">
+			<a href="/" class="back-link">← Back</a>
+			{BioContent && (
+				<div class="bio-content">
+					<BioContent />
+				</div>
+			)}
+		</main>
+
+	</div>
+</Layout>
+
+<style>
+	.container {
+		width: 100%;
+		max-width: 860px;
+		display: grid;
+		grid-template-columns: 220px 1fr;
+		gap: 24px;
+		align-items: start;
+	}
+
+	.profile {
+		position: sticky;
+		top: 24px;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 12px;
+	}
+
+	.profile-link {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.avatar {
+		width: 88px;
+		height: 88px;
+		border-radius: 50%;
+		object-fit: cover;
+		background: var(--border);
+	}
+
+	.profile-name {
+		font-size: 1.4rem;
+		font-weight: 700;
+		line-height: 1.2;
+	}
+
+	.profile-name-ja {
+		font-size: 0.85rem;
+		color: var(--text-sub);
+		margin-top: 2px;
+	}
+
+	.profile-role {
+		font-size: 0.9rem;
+		color: var(--text-sub);
+	}
+
+	.bio-main {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	.back-link {
+		font-size: 0.85rem;
+		color: var(--text-sub);
+		text-decoration: none;
+	}
+
+	.back-link:hover {
+		color: var(--text);
+		text-decoration: underline;
+	}
+
+	.bio-content {
+		font-size: 0.9rem;
+		line-height: 1.75;
+		color: var(--text);
+	}
+
+	.bio-content :global(h2) {
+		font-size: 1rem;
+		font-weight: 600;
+		margin-bottom: 12px;
+	}
+
+	.bio-content :global(h3) {
+		font-size: 0.9rem;
+		font-weight: 600;
+		margin-bottom: 6px;
+		margin-top: 16px;
+	}
+
+	.bio-content :global(p) {
+		color: var(--text-sub);
+		margin-bottom: 8px;
+	}
+
+	.bio-content :global(ul) {
+		padding-left: 1.2em;
+		color: var(--text-sub);
+	}
+
+	.bio-content :global(hr) {
+		border: none;
+		border-top: 1px solid var(--border);
+		margin: 20px 0;
+	}
+
+	@media (max-width: 640px) {
+		.container {
+			grid-template-columns: 1fr;
+		}
+		.profile {
+			position: static;
+		}
+		.profile-link {
+			flex-direction: row;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: 16px;
+		}
+		.profile-info {
+			flex: 1;
+		}
+	}
+</style>
