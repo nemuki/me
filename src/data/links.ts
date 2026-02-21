@@ -26,6 +26,7 @@ export const sections: Section[] = [
     title: "Tech 🚀",
     links: [
       { label: "GitHub",   url: "https://github.com/nemuki",  sub: "github.com/nemuki",  icon: "github" },
+      { label: "Credly", url: "https://www.credly.com/users/nemuki/badges", sub: "credly.com", icon: "credly" },
       { label: "Zenn",     url: "https://zenn.dev/nemuki",    sub: "zenn.dev/nemuki",    icon: "zenn" },
       { label: "Qiita",    url: "https://qiita.com/nemuki",   sub: "qiita.com/nemuki",   icon: "qiita" },
     ],
