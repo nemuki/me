@@ -1,89 +1,36 @@
 ---
-import LinkCard from '../components/LinkCard.astro';
-import { profile, sections } from '../data/links';
-import Layout from '../layouts/Layout.astro';
-import { getGravatarDataUrl } from '../utils/getGravatar';
+import { getCollection } from "astro:content";
+import LinkCard from "../components/LinkCard.astro";
+import Layout from "../layouts/Layout.astro";
 
-const gravatarEmail = import.meta.env.GRAVATAR_EMAIL as string | undefined;
-const avatarUrl = gravatarEmail
-  ? ((await getGravatarDataUrl(gravatarEmail)) ?? profile.avatarUrl)
-  : profile.avatarUrl;
+const siteEntries = await getCollection("site");
+const { sections } = siteEntries[0].data;
 ---
 
-<Layout title={profile.name} description={`${profile.name} (${profile.nameJa}) - ${profile.role}`} faviconUrl={avatarUrl}>
-  <div class="container">
+<Layout>
+  <a slot="profile-extra" href="/bio" class="bio-link">Bio →</a>
 
-    <!-- Profile -->
-    <aside class="profile">
-      <img class="avatar" src={avatarUrl} alt={profile.name} />
-      <div class="profile-info">
-        <p class="profile-name">{profile.name}</p>
-        <p class="profile-name-ja">{profile.nameJa}</p>
-        <p class="profile-role">{profile.role}</p>
-      </div>
-    </aside>
-
-    <!-- Link sections -->
-    <main class="sections">
-      {sections.map((section) => (
-        <section>
-          <p class="section-title">{section.title}</p>
+  <!-- Link sections -->
+  <main class="sections">
+    {sections.map((section) => (
+      <section>
+        <p class="section-title">{section.title}</p>
+        {section.content && (
+          <p class="section-content">{section.content}</p>
+        )}
+        {section.links && (
           <div class="card-grid">
             {section.links.map((link) => (
               <LinkCard {...link} />
             ))}
           </div>
-        </section>
-      ))}
-    </main>
-
-  </div>
+        )}
+      </section>
+    ))}
+  </main>
 </Layout>
 
 <style>
-  .container {
-    width: 100%;
-    max-width: 860px;
-    display: grid;
-    grid-template-columns: 220px 1fr;
-    gap: 24px;
-    align-items: start;
-  }
-
-  .profile {
-    position: sticky;
-    top: 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .avatar {
-    width: 88px;
-    height: 88px;
-    border-radius: 50%;
-    object-fit: cover;
-    background: var(--border);
-  }
-
-  .profile-name {
-    font-size: 1.4rem;
-    font-weight: 700;
-    line-height: 1.2;
-  }
-
-  .profile-name-ja {
-    font-size: 0.85rem;
-    color: var(--text-sub);
-    margin-top: 2px;
-  }
-
-  .profile-role {
-    font-size: 0.9rem;
-    color: var(--text-sub);
-  }
-
   .sections {
     display: flex;
     flex-direction: column;
@@ -102,19 +49,23 @@ const avatarUrl = gravatarEmail
     gap: 10px;
   }
 
-  @media (max-width: 640px) {
-    .container {
-      grid-template-columns: 1fr;
-    }
-    .profile {
-      position: static;
-      flex-direction: row;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 16px;
-    }
-    .profile-info {
-      flex: 1;
-    }
+  .section-content {
+    font-size: 0.9rem;
+    line-height: 1.75;
+    color: var(--text-sub);
+    margin-bottom: 12px;
+    white-space: pre-line;
+  }
+
+  .bio-link {
+    font-size: 0.85rem;
+    color: var(--text-sub);
+    text-decoration: none;
+    margin-top: 4px;
+  }
+
+  .bio-link:hover {
+    color: var(--text);
+    text-decoration: underline;
   }
 </style>

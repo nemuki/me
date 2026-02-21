@@ -1,0 +1,104 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+
+const bioEntries = await getCollection("bio");
+const bio = bioEntries[0];
+const { Content: BioContent } = bio ? await render(bio) : { Content: null };
+---
+
+<Layout title="Bio" profileLinkHref="/">
+	<!-- Bio -->
+	<main class="bio-main">
+			<a href="/" class="back-link">← Back</a>
+			{BioContent && (
+				<div class="bio-content">
+					<BioContent />
+				</div>
+			)}
+	</main>
+</Layout>
+
+<style>
+	.bio-main {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	.back-link {
+		font-size: 0.85rem;
+		color: var(--text-sub);
+		text-decoration: none;
+	}
+
+	.back-link:hover {
+		color: var(--text);
+		text-decoration: underline;
+	}
+
+	.bio-content {
+		font-size: 0.9rem;
+		line-height: 1.75;
+		color: var(--text);
+	}
+
+	.bio-content :global(h2) {
+		font-size: 1rem;
+		font-weight: 600;
+		margin-bottom: 12px;
+	}
+
+	.bio-content :global(h3) {
+		font-size: 0.9rem;
+		font-weight: 600;
+		margin-bottom: 6px;
+		margin-top: 16px;
+	}
+
+	.bio-content :global(p) {
+		color: var(--text-sub);
+		margin-bottom: 8px;
+	}
+
+	.bio-content :global(ul) {
+		padding-left: 1.2em;
+		color: var(--text-sub);
+	}
+
+	.bio-content :global(hr) {
+		border: none;
+		border-top: 1px solid var(--border);
+		margin: 20px 0;
+	}
+
+	.bio-content :global(a) {
+		color: var(--text);
+		text-decoration: underline;
+		text-underline-offset: 2px;
+	}
+
+	.bio-content :global(a:hover) {
+		color: var(--text-sub);
+	}
+
+	.bio-content :global(table) {
+		width: 100%;
+		border-collapse: collapse;
+		font-size: 0.85rem;
+	}
+
+	.bio-content :global(th) {
+		text-align: left;
+		padding: 6px 12px;
+		border-bottom: 1px solid var(--border);
+		color: var(--text-sub);
+		font-weight: 600;
+	}
+
+	.bio-content :global(td) {
+		padding: 6px 12px;
+		border-bottom: 1px solid var(--border);
+		color: var(--text-sub);
+	}
+</style>

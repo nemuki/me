@@ -8,12 +8,14 @@
 		"preview": "astro build && wrangler dev",
 		"astro": "astro",
 		"deploy": "astro build && wrangler deploy",
+		"deploy:preview": "astro build && wrangler versions upload",
 		"cf-typegen": "wrangler types",
 		"check": "biome check",
 		"check:fix": "biome check --fix"
 	},
 	"dependencies": {
 		"@astrojs/cloudflare": "12.6.12",
+		"@astrojs/mdx": "4.3.13",
 		"astro": "5.17.3",
 		"simple-icons": "16.9.0"
 	},
