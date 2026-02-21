@@ -71,7 +71,7 @@ sections:
 #### カラーパレット（WCAG AAA 準拠 / 7:1 以上）
 
 | 変数 | ライト | ダーク |
-|---|---|---|
+| --- | --- | --- |
 | `--bg` | `#f5f5f5` | `#111111` |
 | `--surface` | `#ffffff` | `#1e1e1e` |
 | `--text` | `#111111` | `#f0f0f0` |
@@ -110,3 +110,30 @@ pnpm cf-typegen       # wrangler types で worker-configuration.d.ts を再生�
 - インデント: **タブ**
 - クォート: **ダブルクォート**
 - コード変更後は `pnpm check` を実行して lint/format を確認すること
+
+## リファクタリング観点
+
+コードを変更・レビューする際は以下の 3 観点でチェックする。
+
+### 1. Web 標準
+
+- `<meta name="color-scheme" content="light dark">` を `<head>` に含める
+- OGP メタタグ（`og:title` / `og:description` / `og:type`）を付与する
+- 外部リンクの `rel` は `noopener noreferrer` を両方指定する
+- `<img>` には `width` / `height` を明示して CLS（レイアウトシフト）を防止する
+
+### 2. アクセシビリティ（WCAG 2.1 AA 以上を目標、可能なら AAA）
+
+- 見出し階層を正しく使う（`<h1>` → `<h2>` の順、`<p>` で代用しない）
+- `<section>` / `<nav>` などのランドマークには `aria-labelledby` または `aria-label` を付与する
+- `target="_blank"` リンクには `.sr-only` テキストでスクリーンリーダー向けに通知する
+- `:focus-visible` のスタイルが全インタラクティブ要素に適用されているか確認する
+- 色のコントラスト比が WCAG AA (4.5:1) 以上であることを確認する（`--text-sub` は AAA 7:1+ 維持）
+  - コントラスト比の計算は WCAG 相対輝度式を用いること（目安: ライト `#505050`、ダーク `#aaaaaa`）
+
+### 3. Astro ベストプラクティス
+
+- スタイルはコンポーネントスコープの `<style>` タグを優先し、グローバル汚染を避ける
+- グローバルに適用が必要なスタイルは `Layout.astro` の `<style is:global>` にまとめる
+- データ取得は `getCollection()` を使い、ファイル直接 import は避ける
+- インデント・クォートは Biome 設定（タブ・ダブルクォート）に従い、変更後は `pnpm check` を実行する
