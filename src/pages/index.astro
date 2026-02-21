@@ -15,11 +15,16 @@ const { sections } = siteEntries[0].data;
     {sections.map((section) => (
       <section>
         <p class="section-title">{section.title}</p>
-        <div class="card-grid">
-          {section.links.map((link) => (
-            <LinkCard {...link} />
-          ))}
-        </div>
+        {section.content && (
+          <p class="section-content">{section.content}</p>
+        )}
+        {section.links && (
+          <div class="card-grid">
+            {section.links.map((link) => (
+              <LinkCard {...link} />
+            ))}
+          </div>
+        )}
       </section>
     ))}
   </main>
@@ -42,6 +47,14 @@ const { sections } = siteEntries[0].data;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 10px;
+  }
+
+  .section-content {
+    font-size: 0.9rem;
+    line-height: 1.75;
+    color: var(--text-sub);
+    margin-bottom: 12px;
+    white-space: pre-line;
   }
 
   .bio-link {

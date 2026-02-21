@@ -20,7 +20,9 @@ const site = defineCollection({
 		sections: z.array(
 			z.object({
 				title: z.string(),
-				links: z.array(linkSchema),
+				/** セクション上部に表示するテキスト（Markdown 非対応） */
+				content: z.string().optional(),
+				links: z.array(linkSchema).optional(),
 			}),
 		),
 	}),

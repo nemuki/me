@@ -1,10 +1,16 @@
 profile:
   name: "Naoki Takahashi"
-  nameJa: "高橋 直樹"
+  nameJa: "高橋 直樹 (たかはし なおき)"
   role: "Software Engineer"
   avatarUrl: "https://github.com/nemuki.png"
 
 sections:
+  - title: "# Bio 🧑‍🦲"
+    content: | 
+      こんにちは！高橋 直樹です
+      ソフトウェアエンジニアとして、主にフロントエンド開発を中心に活動しています。
+      初音ミクとVtuberが大好きです。
+
   - title: "# Tech 🚀"
     links:
       - label: "GitHub"
