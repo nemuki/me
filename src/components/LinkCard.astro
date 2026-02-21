@@ -9,12 +9,9 @@ interface Props {
 }
 const { label, url, sub, icon } = Astro.props;
 const iconData = getIcon(icon);
-const iconStyle = iconData
-  ? `--icon-color: #${iconData.hex}; --icon-color-dark: #${iconData.hexDark};`
-  : undefined;
 ---
 
-<a class="card" href={url} target="_blank" rel="noopener" style={iconStyle}>
+<a class="card" href={url} target="_blank" rel="noopener">
   <span class="card-icon">
     {
       iconData ? (
@@ -68,15 +65,16 @@ const iconStyle = iconData
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-  .card-icon svg {
-    fill: var(--icon-color, currentColor);
+    border-radius: 6px;
   }
 
   @media (prefers-color-scheme: dark) {
-    .card-icon svg {
-      fill: var(--icon-color-dark, currentColor);
+    .card-icon {
+      background: #ffffff;
+      padding: 4px;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
     }
   }
 
