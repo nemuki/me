@@ -9,7 +9,9 @@ export type IconData = {
 export function getIcon(slug: string): IconData | null {
   // "github" → "siGithub", "x" → "siX"
   const key =
-    "si" + slug.charAt(0).toUpperCase() + slug.slice(1).replace(/-([a-z])/g, (_, c: string) => c.toUpperCase());
+    "si" +
+    slug.charAt(0).toUpperCase() +
+    slug.slice(1).replace(/-([a-z])/g, (_, c: string) => c.toUpperCase());
 
   const raw = (simpleIcons as Record<string, unknown>)[key];
   if (!raw || typeof raw !== "object") return null;
