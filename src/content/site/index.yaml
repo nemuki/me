@@ -5,11 +5,13 @@ profile:
   avatarUrl: "https://github.com/nemuki.png"
 
 sections:
-  - title: "# Bio 🧑‍🦲"
+  - title: "# 自己紹介 👋"
     content: | 
-      こんにちは！高橋 直樹です
-      ソフトウェアエンジニアとして、主にフロントエンド開発を中心に活動しています。
+      こんにちは！高橋 直樹です！
+      ソフトウェアエンジニアとして東京で働いています。
+
       初音ミクとVtuberが大好きです。
+      カメラと写真も趣味で、特に風景写真を撮るのが好きです。
 
   - title: "# Tech 🚀"
     links:
@@ -30,7 +32,7 @@ sections:
         sub: "qiita.com/nemuki"
         icon: "qiita"
 
-  - title: "# SNS 🫶"
+  - title: "# SNS 📱"
     links:
       - label: "X (Twitter)"
         url: "https://x.com/nemuki_dev"
@@ -60,3 +62,10 @@ sections:
         url: "https://mstdn.jp/@nemuki"
         sub: "mstdn.jp"
         icon: "mastodon"
+
+  - title: "# Personal 🫶"
+    links:
+      - label: "Eventernote"
+        url: "https://eventernote.com/users/nemuki"
+        sub: "eventernote.com"
+        icon: "eventernote"
