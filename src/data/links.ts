@@ -35,12 +35,12 @@ export const sections: Section[] = [
     title: "SNS 🫶",
     links: [
       { label: "X (Twitter)", url: "https://x.com/nemuki_dev",               sub: "@nemuki_dev", icon: "x" },
-      { label: "Bluesky",     url: "https://bsky.app/profile/nemuki",         sub: "bsky.app",    icon: "bluesky" },
-      { label: "Threads",     url: "https://www.threads.net/@nemuki_dev",     sub: "@nemuki_dev", icon: "threads" },
+      { label: "Instagram",   url: "https://www.instagram.com/nemuki.nok/",   sub: "@nemuki.nok", icon: "instagram" },
       { label: "mixi2",       url: "https://mixi.social/@nemuki",             sub: "mixi.social", icon: "mixi" },
-      { label: "Mastodon",    url: "https://mstdn.jp/@nemuki",                sub: "mstdn.jp",    icon: "mastodon" },
+      { label: "Bluesky",     url: "https://bsky.app/profile/nemuki.bsky.social",         sub: "bsky.app",    icon: "bluesky" },
+      { label: "Threads",     url: "https://www.threads.net/@nemuki.nok",     sub: "@nemuki.nok", icon: "threads" },
       { label: "Misskey",     url: "https://misskey.io/@nemuki",              sub: "misskey.io",  icon: "misskey" },
-      { label: "Instagram",   url: "https://www.instagram.com/nemuki_dev/",   sub: "@nemuki_dev", icon: "instagram" },
+      { label: "Mastodon",    url: "https://mstdn.jp/@nemuki",                sub: "mstdn.jp",    icon: "mastodon" },
     ],
   },
 ];
