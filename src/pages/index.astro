@@ -1,13 +1,26 @@
 ---
-import LinkCard from '../components/LinkCard.astro';
-import { profile, sections } from '../data/links';
-import Layout from '../layouts/Layout.astro';
-import { getGravatarDataUrl } from '../utils/getGravatar';
+import { getCollection, render } from "astro:content";
+import LinkCard from "../components/LinkCard.astro";
+import Layout from "../layouts/Layout.astro";
+import { getGravatarDataUrl } from "../utils/getGravatar";
+
+// プロフィール
+const profileEntries = await getCollection("profile");
+const profile = profileEntries[0].data;
+
+// リンクセクション（order 昇順）
+const allSections = await getCollection("links");
+const sections = allSections.sort((a, b) => a.data.order - b.data.order);
+
+// 経歴 MDX
+const bioEntries = await getCollection("bio");
+const bio = bioEntries[0];
+const { Content: BioContent } = bio ? await render(bio) : { Content: null };
 
 const gravatarEmail = import.meta.env.GRAVATAR_EMAIL as string | undefined;
 const avatarUrl = gravatarEmail
-  ? ((await getGravatarDataUrl(gravatarEmail)) ?? profile.avatarUrl)
-  : profile.avatarUrl;
+	? ((await getGravatarDataUrl(gravatarEmail)) ?? profile.avatarUrl)
+	: profile.avatarUrl;
 ---
 
 <Layout title={profile.name} description={`${profile.name} (${profile.nameJa}) - ${profile.role}`} faviconUrl={avatarUrl}>
@@ -27,14 +40,23 @@ const avatarUrl = gravatarEmail
     <main class="sections">
       {sections.map((section) => (
         <section>
-          <p class="section-title">{section.title}</p>
+          <p class="section-title">{section.data.title}</p>
           <div class="card-grid">
-            {section.links.map((link) => (
+            {section.data.links.map((link) => (
               <LinkCard {...link} />
             ))}
           </div>
         </section>
       ))}
+
+      <!-- Biography (src/content/bio/index.mdx) -->
+      {BioContent && (
+        <section class="bio">
+          <div class="bio-content">
+            <BioContent />
+          </div>
+        </section>
+      )}
     </main>
 
   </div>
@@ -100,6 +122,41 @@ const avatarUrl = gravatarEmail
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 10px;
+  }
+
+  .bio-content {
+    font-size: 0.9rem;
+    line-height: 1.75;
+    color: var(--text);
+  }
+
+  .bio-content :global(h2) {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .bio-content :global(h3) {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    margin-top: 16px;
+  }
+
+  .bio-content :global(p) {
+    color: var(--text-sub);
+    margin-bottom: 8px;
+  }
+
+  .bio-content :global(ul) {
+    padding-left: 1.2em;
+    color: var(--text-sub);
+  }
+
+  .bio-content :global(hr) {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 20px 0;
   }
 
   @media (max-width: 640px) {

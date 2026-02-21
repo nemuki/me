@@ -2,12 +2,13 @@
 
 ## プロジェクト概要
 
-個人リンク集サイト（linktree 風）。Astro + Cloudflare Workers でホスティング。
-単一ページ構成（`src/pages/index.astro`）で、プロフィールとリンクカードをグリッド表示する。
+個人ポートフォリオサイト（linktree 風）。Astro + Cloudflare Workers でホスティング。
+単一ページ構成（`src/pages/index.astro`）で、プロフィール・リンクカード・経歴をグリッド表示する。
 
 ## 技術スタック
 
 - **フレームワーク**: Astro 5（SSR モード、`@astrojs/cloudflare` アダプター）
+- **コンテンツ**: Astro Content Collections（YAML でリンク管理、MDX で経歴管理）
 - **ホスティング**: Cloudflare Workers + Assets（`wrangler.jsonc` で設定）
 - **パッケージマネージャー**: pnpm
 - **リンター/フォーマッター**: Biome（タブインデント、ダブルクォート）
@@ -17,26 +18,57 @@
 
 ```
 src/
-  pages/index.astro      # 唯一のページ。profile と sections をレンダリング
-  data/links.ts          # プロフィール情報 + リンクデータ（編集の主な対象）
+  pages/index.astro          # 唯一のページ。Content Collections からデータ取得してレンダリング
+  content/
+    config.ts                # コレクション定義（profile / links / bio）
+    profile/index.yaml       # プロフィール情報（名前・役職・アバター URL）
+    links/
+      tech.yaml              # Tech リンクセクション（order: 1）
+      sns.yaml               # SNS リンクセクション（order: 2）
+      *.yaml                 # 追加セクションはここに追加
+    bio/
+      index.mdx              # 経歴・職歴（MDX で記述）
   components/LinkCard.astro  # リンクカードコンポーネント
-  layouts/Layout.astro   # HTML シェル。CSS 変数でライト/ダーク対応
-  utils/getIcon.ts       # simple-icons パッケージからスラグ→SVG を取得
-  utils/getGravatar.ts   # ビルド時に Gravatar を Base64 Data URL に変換
+  layouts/Layout.astro       # HTML シェル。CSS 変数でライト/ダーク対応
+  utils/getIcon.ts           # simple-icons パッケージからスラグ→SVG を取得
+  utils/getGravatar.ts       # ビルド時に Gravatar を Base64 Data URL に変換
 ```
 
 ## 重要な規約
 
 ### リンク追加・編集
 
-`src/data/links.ts` の `sections` 配列を編集するだけでサイトが更新される。各リンクは以下の型に従う:
+`src/content/links/*.yaml` ファイルを編集または新規作成するだけでサイトが更新される。
 
-```ts
-{ label: string; url: string; sub: string; icon: string }
+```yaml
+title: "Tech 🚀"
+order: 1           # 表示順（小さいほど先）
+links:
+  - label: "GitHub"
+    url: "https://github.com/username"
+    sub: "github.com/username"
+    icon: "github"  # Simple Icons のスラグ (https://simpleicons.org)
 ```
 
-- `icon` フィールドは [Simple Icons](https://simpleicons.org) のスラグを指定する（例: `"github"`, `"x"`, `"bluesky"`）
+- `icon` は [Simple Icons](https://simpleicons.org) のスラグ（例: `"github"`, `"x"`, `"bluesky"`）
 - `getIcon()` がスラグを `siGithub` 形式のキーに変換して SVG を取得する
+- 新セクションは新しい `.yaml` ファイルを追加し `order` で並び順を制御する
+
+### 経歴の編集
+
+`src/content/bio/index.mdx` を Markdown/MDX で自由に記述する。
+ファイルが存在する場合のみページに経歴セクションが表示される。
+
+### プロフィールの編集
+
+`src/content/profile/index.yaml` を編集する。
+
+```yaml
+name: "Your Name"
+nameJa: "名前"
+role: "Job Title"
+avatarUrl: "https://github.com/username.png"
+```
 
 ### スタイリング
 
@@ -46,7 +78,7 @@ src/
 
 ### 環境変数
 
-- `GRAVATAR_EMAIL`: 設定するとビルド時に Gravatar アバターを取得して Base64 に変換。未設定時は GitHub アバター URL にフォールバック
+- `GRAVATAR_EMAIL`: 設定するとビルド時に Gravatar アバターを取得して Base64 に変換。未設定時は `profile.yaml` の `avatarUrl` にフォールバック
 
 ## 開発コマンド
 
