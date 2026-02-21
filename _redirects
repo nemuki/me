@@ -1,1 +1,5 @@
-/* https://linktr.ee/nemuki
+# リダイレクト例（必要に応じて追加）
+
+# /github https://github.com/nemuki 301
+
+# /zenn https://zenn.dev/nemuki 301
