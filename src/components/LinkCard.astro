@@ -1,4 +1,6 @@
 ---
+import { getIcon } from "../utils/getIcon";
+
 interface Props {
   label: string;
   url: string;
@@ -6,12 +8,15 @@ interface Props {
   icon: string;
 }
 const { label, url, sub, icon } = Astro.props;
-const iconUrl = `https://cdn.simpleicons.org/${icon}`;
+const iconData = getIcon(icon);
 ---
 
 <a class="card" href={url} target="_blank" rel="noopener">
   <span class="card-icon">
-    <img src={iconUrl} alt={label} width="20" height="20" />
+    {iconData
+      ? <Fragment set:html={iconData.svg} />
+      : <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+    }
   </span>
   <span class="card-label">{label}</span>
   <span class="card-sub">{sub}</span>
@@ -44,18 +49,6 @@ const iconUrl = `https://cdn.simpleicons.org/${icon}`;
     justify-content: center;
   }
 
-  .card-icon img {
-    width: 20px;
-    height: 20px;
-    filter: brightness(0);
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .card-icon img {
-      filter: brightness(0) invert(1);
-    }
-  }
-
   .card-label {
     font-size: 0.85rem;
     font-weight: 600;
@@ -66,4 +59,5 @@ const iconUrl = `https://cdn.simpleicons.org/${icon}`;
     color: var(--text-sub);
   }
 </style>
+
 
