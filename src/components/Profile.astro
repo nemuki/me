@@ -1,0 +1,101 @@
+---
+interface Props {
+	name: string;
+	nameJa: string;
+	jobTitle: string;
+	avatarUrl: string;
+	/** 指定するとプロフィール全体をリンクで包む */
+	linkHref?: string;
+}
+const { name, nameJa, jobTitle, avatarUrl, linkHref } = Astro.props;
+---
+
+<aside class="profile">
+	{linkHref ? (
+		<a href={linkHref} class="profile-inner profile-link">
+			<img class="avatar" src={avatarUrl} alt={name} />
+			<div class="profile-info">
+				<p class="profile-name">{name}</p>
+				<p class="profile-name-ja">{nameJa}</p>
+				<p class="profile-role">{jobTitle}</p>
+			</div>
+		</a>
+	) : (
+		<div class="profile-inner">
+			<img class="avatar" src={avatarUrl} alt={name} />
+			<div class="profile-info">
+				<p class="profile-name">{name}</p>
+				<p class="profile-name-ja">{nameJa}</p>
+				<p class="profile-role">{jobTitle}</p>
+				<slot />
+			</div>
+		</div>
+	)}
+</aside>
+
+<style>
+	.profile {
+		position: sticky;
+		top: 24px;
+	}
+
+	.profile-inner {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 12px;
+	}
+
+	.profile-link {
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.avatar {
+		width: 88px;
+		height: 88px;
+		border-radius: 50%;
+		object-fit: cover;
+		background: var(--border);
+	}
+
+	.profile-info {
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+	}
+
+	.profile-name {
+		font-size: 1.4rem;
+		font-weight: 700;
+		line-height: 1.2;
+	}
+
+	.profile-name-ja {
+		font-size: 0.85rem;
+		color: var(--text-sub);
+		margin-top: 2px;
+	}
+
+	.profile-role {
+		font-size: 0.9rem;
+		color: var(--text-sub);
+	}
+
+	@media (max-width: 640px) {
+		.profile {
+			position: static;
+		}
+
+		.profile-inner {
+			flex-direction: row;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: 16px;
+		}
+
+		.profile-info {
+			flex: 1;
+		}
+	}
+</style>

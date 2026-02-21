@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from "astro:content";
+import Profile from "../components/Profile.astro";
 import Layout from "../layouts/Layout.astro";
 import { getGravatarDataUrl } from "../utils/getGravatar";
 
@@ -24,16 +25,7 @@ const avatarUrl = gravatarEmail
 	<div class="container">
 
 		<!-- Profile -->
-		<aside class="profile">
-			<a href="/" class="profile-link">
-				<img class="avatar" src={avatarUrl} alt={profile.name} />
-				<div class="profile-info">
-					<p class="profile-name">{profile.name}</p>
-					<p class="profile-name-ja">{profile.nameJa}</p>
-					<p class="profile-role">{profile.role}</p>
-				</div>
-			</a>
-		</aside>
+		<Profile name={profile.name} nameJa={profile.nameJa} jobTitle={profile.role} avatarUrl={avatarUrl} linkHref="/" />
 
 		<!-- Bio -->
 		<main class="bio-main">
@@ -56,48 +48,6 @@ const avatarUrl = gravatarEmail
 		grid-template-columns: 220px 1fr;
 		gap: 24px;
 		align-items: start;
-	}
-
-	.profile {
-		position: sticky;
-		top: 24px;
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		gap: 12px;
-	}
-
-	.profile-link {
-		display: flex;
-		flex-direction: column;
-		gap: 12px;
-		text-decoration: none;
-		color: inherit;
-	}
-
-	.avatar {
-		width: 88px;
-		height: 88px;
-		border-radius: 50%;
-		object-fit: cover;
-		background: var(--border);
-	}
-
-	.profile-name {
-		font-size: 1.4rem;
-		font-weight: 700;
-		line-height: 1.2;
-	}
-
-	.profile-name-ja {
-		font-size: 0.85rem;
-		color: var(--text-sub);
-		margin-top: 2px;
-	}
-
-	.profile-role {
-		font-size: 0.9rem;
-		color: var(--text-sub);
 	}
 
 	.bio-main {
@@ -155,18 +105,6 @@ const avatarUrl = gravatarEmail
 	@media (max-width: 640px) {
 		.container {
 			grid-template-columns: 1fr;
-		}
-		.profile {
-			position: static;
-		}
-		.profile-link {
-			flex-direction: row;
-			flex-wrap: wrap;
-			align-items: center;
-			gap: 16px;
-		}
-		.profile-info {
-			flex: 1;
 		}
 	}
 </style>

@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import LinkCard from "../components/LinkCard.astro";
+import Profile from "../components/Profile.astro";
 import Layout from "../layouts/Layout.astro";
 import { getGravatarDataUrl } from "../utils/getGravatar";
 
@@ -18,15 +19,9 @@ const avatarUrl = gravatarEmail
   <div class="container">
 
     <!-- Profile -->
-    <aside class="profile">
-      <img class="avatar" src={avatarUrl} alt={profile.name} />
-      <div class="profile-info">
-        <p class="profile-name">{profile.name}</p>
-        <p class="profile-name-ja">{profile.nameJa}</p>
-        <p class="profile-role">{profile.role}</p>
-        <a href="/bio" class="bio-link">Bio →</a>
-      </div>
-    </aside>
+    <Profile name={profile.name} nameJa={profile.nameJa} jobTitle={profile.role} avatarUrl={avatarUrl}>
+      <a href="/bio" class="bio-link">Bio →</a>
+    </Profile>
 
     <!-- Link sections -->
     <main class="sections">
@@ -54,40 +49,6 @@ const avatarUrl = gravatarEmail
     grid-template-columns: 220px 1fr;
     gap: 24px;
     align-items: start;
-  }
-
-  .profile {
-    position: sticky;
-    top: 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .avatar {
-    width: 88px;
-    height: 88px;
-    border-radius: 50%;
-    object-fit: cover;
-    background: var(--border);
-  }
-
-  .profile-name {
-    font-size: 1.4rem;
-    font-weight: 700;
-    line-height: 1.2;
-  }
-
-  .profile-name-ja {
-    font-size: 0.85rem;
-    color: var(--text-sub);
-    margin-top: 2px;
-  }
-
-  .profile-role {
-    font-size: 0.9rem;
-    color: var(--text-sub);
   }
 
   .sections {
@@ -123,16 +84,6 @@ const avatarUrl = gravatarEmail
   @media (max-width: 640px) {
     .container {
       grid-template-columns: 1fr;
-    }
-    .profile {
-      position: static;
-      flex-direction: row;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 16px;
-    }
-    .profile-info {
-      flex: 1;
     }
   }
 </style>
