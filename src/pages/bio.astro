@@ -2,7 +2,7 @@
 import { getCollection, render } from "astro:content";
 import Profile from "../components/Profile.astro";
 import Layout from "../layouts/Layout.astro";
-import { getGravatarDataUrl } from "../utils/getGravatar";
+import { getAvatarUrl } from "../utils/getAvatarUrl";
 
 const siteEntries = await getCollection("site");
 const { profile } = siteEntries[0].data;
@@ -11,10 +11,7 @@ const bioEntries = await getCollection("bio");
 const bio = bioEntries[0];
 const { Content: BioContent } = bio ? await render(bio) : { Content: null };
 
-const gravatarEmail = import.meta.env.GRAVATAR_EMAIL as string | undefined;
-const avatarUrl = gravatarEmail
-	? ((await getGravatarDataUrl(gravatarEmail)) ?? profile.avatarUrl)
-	: profile.avatarUrl;
+const avatarUrl = await getAvatarUrl(profile.avatarUrl);
 ---
 
 <Layout
@@ -25,7 +22,7 @@ const avatarUrl = gravatarEmail
 	<div class="container">
 
 		<!-- Profile -->
-		<Profile name={profile.name} nameJa={profile.nameJa} jobTitle={profile.role} avatarUrl={avatarUrl} linkHref="/" />
+		<Profile linkHref="/" />
 
 		<!-- Bio -->
 		<main class="bio-main">

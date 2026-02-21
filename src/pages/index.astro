@@ -3,23 +3,20 @@ import { getCollection } from "astro:content";
 import LinkCard from "../components/LinkCard.astro";
 import Profile from "../components/Profile.astro";
 import Layout from "../layouts/Layout.astro";
-import { getGravatarDataUrl } from "../utils/getGravatar";
+import { getAvatarUrl } from "../utils/getAvatarUrl";
 
 // プロフィール + リンクセクション
 const siteEntries = await getCollection("site");
 const { profile, sections } = siteEntries[0].data;
 
-const gravatarEmail = import.meta.env.GRAVATAR_EMAIL as string | undefined;
-const avatarUrl = gravatarEmail
-	? ((await getGravatarDataUrl(gravatarEmail)) ?? profile.avatarUrl)
-	: profile.avatarUrl;
+const avatarUrl = await getAvatarUrl(profile.avatarUrl);
 ---
 
 <Layout title={profile.name} description={`${profile.name} (${profile.nameJa}) - ${profile.role}`} faviconUrl={avatarUrl}>
   <div class="container">
 
     <!-- Profile -->
-    <Profile name={profile.name} nameJa={profile.nameJa} jobTitle={profile.role} avatarUrl={avatarUrl}>
+    <Profile>
       <a href="/bio" class="bio-link">Bio →</a>
     </Profile>
 
