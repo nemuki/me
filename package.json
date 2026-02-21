@@ -8,6 +8,7 @@
 		"preview": "astro build && wrangler dev",
 		"astro": "astro",
 		"deploy": "astro build && wrangler deploy",
+		"deploy:preview": "astro build && wrangler versions upload",
 		"cf-typegen": "wrangler types",
 		"check": "biome check",
 		"check:fix": "biome check --fix"
