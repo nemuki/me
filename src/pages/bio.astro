@@ -1,52 +1,25 @@
 ---
 import { getCollection, render } from "astro:content";
-import Profile from "../components/Profile.astro";
 import Layout from "../layouts/Layout.astro";
-import { getAvatarUrl } from "../utils/getAvatarUrl";
-
-const siteEntries = await getCollection("site");
-const { profile } = siteEntries[0].data;
 
 const bioEntries = await getCollection("bio");
 const bio = bioEntries[0];
 const { Content: BioContent } = bio ? await render(bio) : { Content: null };
-
-const avatarUrl = await getAvatarUrl(profile.avatarUrl);
 ---
 
-<Layout
-	title={`Bio - ${profile.name}`}
-	description={`${profile.name} (${profile.nameJa}) - ${profile.role}`}
-	faviconUrl={avatarUrl}
->
-	<div class="container">
-
-		<!-- Profile -->
-		<Profile linkHref="/" />
-
-		<!-- Bio -->
-		<main class="bio-main">
+<Layout title="Bio" profileLinkHref="/">
+	<!-- Bio -->
+	<main class="bio-main">
 			<a href="/" class="back-link">← Back</a>
 			{BioContent && (
 				<div class="bio-content">
 					<BioContent />
 				</div>
 			)}
-		</main>
-
-	</div>
+	</main>
 </Layout>
 
 <style>
-	.container {
-		width: 100%;
-		max-width: 860px;
-		display: grid;
-		grid-template-columns: 220px 1fr;
-		gap: 24px;
-		align-items: start;
-	}
-
 	.bio-main {
 		display: flex;
 		flex-direction: column;
@@ -97,11 +70,5 @@ const avatarUrl = await getAvatarUrl(profile.avatarUrl);
 		border: none;
 		border-top: 1px solid var(--border);
 		margin: 20px 0;
-	}
-
-	@media (max-width: 640px) {
-		.container {
-			grid-template-columns: 1fr;
-		}
 	}
 </style>

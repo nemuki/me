@@ -1,53 +1,31 @@
 ---
 import { getCollection } from "astro:content";
 import LinkCard from "../components/LinkCard.astro";
-import Profile from "../components/Profile.astro";
 import Layout from "../layouts/Layout.astro";
-import { getAvatarUrl } from "../utils/getAvatarUrl";
 
-// プロフィール + リンクセクション
 const siteEntries = await getCollection("site");
-const { profile, sections } = siteEntries[0].data;
-
-const avatarUrl = await getAvatarUrl(profile.avatarUrl);
+const { sections } = siteEntries[0].data;
 ---
 
-<Layout title={profile.name} description={`${profile.name} (${profile.nameJa}) - ${profile.role}`} faviconUrl={avatarUrl}>
-  <div class="container">
+<Layout>
+  <a slot="profile-extra" href="/bio" class="bio-link">Bio →</a>
 
-    <!-- Profile -->
-    <Profile>
-      <a href="/bio" class="bio-link">Bio →</a>
-    </Profile>
-
-    <!-- Link sections -->
-    <main class="sections">
-      {sections.map((section) => (
-        <section>
-          <p class="section-title">{section.title}</p>
-          <div class="card-grid">
-            {section.links.map((link) => (
-              <LinkCard {...link} />
-            ))}
-          </div>
-        </section>
-      ))}
-
-    </main>
-
-  </div>
+  <!-- Link sections -->
+  <main class="sections">
+    {sections.map((section) => (
+      <section>
+        <p class="section-title">{section.title}</p>
+        <div class="card-grid">
+          {section.links.map((link) => (
+            <LinkCard {...link} />
+          ))}
+        </div>
+      </section>
+    ))}
+  </main>
 </Layout>
 
 <style>
-  .container {
-    width: 100%;
-    max-width: 860px;
-    display: grid;
-    grid-template-columns: 220px 1fr;
-    gap: 24px;
-    align-items: start;
-  }
-
   .sections {
     display: flex;
     flex-direction: column;
@@ -76,11 +54,5 @@ const avatarUrl = await getAvatarUrl(profile.avatarUrl);
   .bio-link:hover {
     color: var(--text);
     text-decoration: underline;
-  }
-
-  @media (max-width: 640px) {
-    .container {
-      grid-template-columns: 1fr;
-    }
   }
 </style>

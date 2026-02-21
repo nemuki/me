@@ -1,17 +1,13 @@
 ---
-import { getCollection } from "astro:content";
-import { getAvatarUrl } from "../utils/getAvatarUrl";
-
 interface Props {
+	name: string;
+	nameJa: string;
+	jobTitle: string;
+	avatarUrl: string;
 	/** 指定するとプロフィール全体をリンクで包む */
 	linkHref?: string;
 }
-const { linkHref } = Astro.props;
-
-const siteEntries = await getCollection("site");
-const { profile } = siteEntries[0].data;
-const { name, nameJa, role: jobTitle, avatarUrl: fallbackUrl } = profile;
-const avatarUrl = await getAvatarUrl(fallbackUrl);
+const { name, nameJa, jobTitle, avatarUrl, linkHref } = Astro.props;
 ---
 
 <aside class="profile">
