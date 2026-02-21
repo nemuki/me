@@ -71,4 +71,34 @@ const { Content: BioContent } = bio ? await render(bio) : { Content: null };
 		border-top: 1px solid var(--border);
 		margin: 20px 0;
 	}
+
+	.bio-content :global(a) {
+		color: var(--text);
+		text-decoration: underline;
+		text-underline-offset: 2px;
+	}
+
+	.bio-content :global(a:hover) {
+		color: var(--text-sub);
+	}
+
+	.bio-content :global(table) {
+		width: 100%;
+		border-collapse: collapse;
+		font-size: 0.85rem;
+	}
+
+	.bio-content :global(th) {
+		text-align: left;
+		padding: 6px 12px;
+		border-bottom: 1px solid var(--border);
+		color: var(--text-sub);
+		font-weight: 600;
+	}
+
+	.bio-content :global(td) {
+		padding: 6px 12px;
+		border-bottom: 1px solid var(--border);
+		color: var(--text-sub);
+	}
 </style>
