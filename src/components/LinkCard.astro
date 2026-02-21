@@ -22,7 +22,7 @@ const iconData = getIcon(icon);
           height="20"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="currentColor"
+          stroke="var(--icon-fallback-stroke, currentColor)"
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
@@ -75,6 +75,7 @@ const iconData = getIcon(icon);
       width: 28px;
       height: 28px;
       border-radius: 6px;
+      --icon-fallback-stroke: #111111;
     }
   }
 
