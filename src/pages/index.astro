@@ -13,8 +13,8 @@ const { sections } = siteEntries[0].data;
   <!-- Link sections -->
   <main class="sections">
     {sections.map((section) => (
-      <section>
-        <p class="section-title">{section.title}</p>
+      <section aria-labelledby={`section-${sections.indexOf(section)}`}>
+        <h2 id={`section-${sections.indexOf(section)}`} class="section-title">{section.title}</h2>
         {section.content && (
           <p class="section-content">{section.content}</p>
         )}
@@ -41,6 +41,8 @@ const { sections } = siteEntries[0].data;
     font-size: 1rem;
     font-weight: 600;
     margin-bottom: 12px;
+    /* h2 デフォルトマージンをリセット */
+    margin-top: 0;
   }
 
   .card-grid {

@@ -41,7 +41,11 @@ const pageTitle = title ? `${title} - ${profile.name}` : profile.name;
         </>
     }
     <meta name="generator" content={Astro.generator} />
+    <meta name="color-scheme" content="light dark" />
     <meta name="description" content={description} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
     <title>{pageTitle}</title>
   </head>
   <body>
@@ -63,11 +67,16 @@ const pageTitle = title ? `${title} - ${profile.name}` : profile.name;
 <style is:global>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+  :focus-visible {
+    outline: 2px solid var(--text);
+    outline-offset: 2px;
+  }
+
   :root {
     --bg: #f5f5f5;
     --surface: #ffffff;
     --text: #111111;
-    --text-sub: #666666;
+    --text-sub: #505050;
     --border: #e5e5e5;
     --card-radius: 12px;
   }
@@ -77,7 +86,7 @@ const pageTitle = title ? `${title} - ${profile.name}` : profile.name;
       --bg: #111111;
       --surface: #1e1e1e;
       --text: #f0f0f0;
-      --text-sub: #999999;
+      --text-sub: #aaaaaa;
       --border: #2e2e2e;
     }
   }

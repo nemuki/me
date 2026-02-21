@@ -66,6 +66,27 @@ sections:
 - CSS 変数（`--bg`, `--surface`, `--text`, `--text-sub`, `--border`, `--card-radius`）を `Layout.astro` で定義
 - `prefers-color-scheme: dark` メディアクエリでダークモード対応
 - コンポーネントスコープドCSS（Astro の `<style>` タグ）を使用
+- グローバル `:focus-visible` スタイルを定義済み（キーボードナビゲーション対応）
+
+#### カラーパレット（WCAG AAA 準拠 / 7:1 以上）
+
+| 変数 | ライト | ダーク |
+|---|---|---|
+| `--bg` | `#f5f5f5` | `#111111` |
+| `--surface` | `#ffffff` | `#1e1e1e` |
+| `--text` | `#111111` | `#f0f0f0` |
+| `--text-sub` | `#505050` | `#aaaaaa` |
+| `--border` | `#e5e5e5` | `#2e2e2e` |
+
+`--text-sub` は最低でも WCAG AA (4.5:1) を維持すること。現在は AAA (7:1+) 達成済み。
+
+### アクセシビリティ規約
+
+- **見出し階層**: プロフィール名は `<h1>`、セクションタイトルは `<h2>`（`<p>` 代用禁止）
+- **`<section>` には `aria-labelledby`** を付与して見出しと紐付ける
+- **外部リンク**: `target="_blank"` には必ず `rel="noopener noreferrer"` を付与し、`.sr-only` テキストで「新しいタブで開く」旨を提示する
+- **`<img>`**: 表示サイズが固定の場合は `width`/`height` 属性を明示して CLS を防止する
+- **フォーカス管理**: キーボード操作向けに `:focus-visible` スタイルをグローバルで定義済み
 
 ### 環境変数
 

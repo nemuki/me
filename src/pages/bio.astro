@@ -10,12 +10,12 @@ const { Content: BioContent } = bio ? await render(bio) : { Content: null };
 <Layout title="Bio" profileLinkHref="/">
 	<!-- Bio -->
 	<main class="bio-main">
-			<a href="/" class="back-link">← Back</a>
-			{BioContent && (
-				<div class="bio-content">
-					<BioContent />
-				</div>
-			)}
+		<a href="/" class="back-link">← Back</a>
+		{BioContent && (
+			<div class="bio-content">
+				<BioContent />
+			</div>
+		)}
 	</main>
 </Layout>
 
@@ -32,7 +32,8 @@ const { Content: BioContent } = bio ? await render(bio) : { Content: null };
 		text-decoration: none;
 	}
 
-	.back-link:hover {
+	.back-link:hover,
+	.back-link:focus-visible {
 		color: var(--text);
 		text-decoration: underline;
 	}
