@@ -2,8 +2,9 @@
 interface Props {
   title?: string;
   description?: string;
+  faviconUrl?: string;
 }
-const { title = "Naoki Takahashi", description = "Naoki Takahashi (高橋 直樹) - Software Engineer" } = Astro.props;
+const { title = "Naoki Takahashi", description = "Naoki Takahashi (高橋 直樹) - Software Engineer", faviconUrl } = Astro.props;
 ---
 
 <!doctype html>
@@ -11,8 +12,13 @@ const { title = "Naoki Takahashi", description = "Naoki Takahashi (高橋 直樹
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
+    {faviconUrl
+      ? <link rel="icon" href={faviconUrl} />
+      : <>
+          <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+          <link rel="icon" href="/favicon.ico" />
+        </>
+    }
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
     <title>{title}</title>
