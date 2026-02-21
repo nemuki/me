@@ -2,6 +2,12 @@
 import Layout from '../layouts/Layout.astro';
 import LinkCard from '../components/LinkCard.astro';
 import { profile, sections } from '../data/links';
+import { getGravatarDataUrl } from '../utils/getGravatar';
+
+const gravatarEmail = import.meta.env.GRAVATAR_EMAIL as string | undefined;
+const avatarUrl = gravatarEmail
+  ? ((await getGravatarDataUrl(gravatarEmail)) ?? profile.avatarUrl)
+  : profile.avatarUrl;
 ---
 
 <Layout title={profile.name} description={`${profile.name} (${profile.nameJa}) - ${profile.role}`}>
@@ -9,7 +15,7 @@ import { profile, sections } from '../data/links';
 
     <!-- Profile -->
     <aside class="profile">
-      <img class="avatar" src={profile.avatarUrl} alt={profile.name} />
+      <img class="avatar" src={avatarUrl} alt={profile.name} />
       <div class="profile-info">
         <p class="profile-name">{profile.name}</p>
         <p class="profile-name-ja">{profile.nameJa}</p>
