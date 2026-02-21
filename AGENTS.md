@@ -20,12 +20,8 @@
 src/
   pages/index.astro          # 唯一のページ。Content Collections からデータ取得してレンダリング
   content/
-    config.ts                # コレクション定義（profile / links / bio）
-    profile/index.yaml       # プロフィール情報（名前・役職・アバター URL）
-    links/
-      tech.yaml              # Tech リンクセクション（order: 1）
-      sns.yaml               # SNS リンクセクション（order: 2）
-      *.yaml                 # 追加セクションはここに追加
+    config.ts                # コレクション定義（site / bio）
+    site/index.yaml          # プロフィール + リンクセクション（編集の主な対象）
     bio/
       index.mdx              # 経歴・職歴（MDX で記述）
   components/LinkCard.astro  # リンクカードコンポーネント
@@ -36,39 +32,34 @@ src/
 
 ## 重要な規約
 
-### リンク追加・編集
+### プロフィール・リンクの編集
 
-`src/content/links/*.yaml` ファイルを編集または新規作成するだけでサイトが更新される。
+`src/content/site/index.yaml` を編集するだけでサイトが更新される。
 
 ```yaml
-title: "Tech 🚀"
-order: 1           # 表示順（小さいほど先）
-links:
-  - label: "GitHub"
-    url: "https://github.com/username"
-    sub: "github.com/username"
-    icon: "github"  # Simple Icons のスラグ (https://simpleicons.org)
+profile:
+  name: "Your Name"
+  nameJa: "名前"
+  role: "Job Title"
+  avatarUrl: "https://github.com/username.png"
+
+sections:
+  - title: "Tech 🚀"          # 配列順が表示順
+    links:
+      - label: "GitHub"
+        url: "https://github.com/username"
+        sub: "github.com/username"
+        icon: "github"  # Simple Icons のスラグ (https://simpleicons.org)
 ```
 
 - `icon` は [Simple Icons](https://simpleicons.org) のスラグ（例: `"github"`, `"x"`, `"bluesky"`）
 - `getIcon()` がスラグを `siGithub` 形式のキーに変換して SVG を取得する
-- 新セクションは新しい `.yaml` ファイルを追加し `order` で並び順を制御する
+- セクションの表示順は `sections` 配列の順番で制御する
 
 ### 経歴の編集
 
 `src/content/bio/index.mdx` を Markdown/MDX で自由に記述する。
 ファイルが存在する場合のみページに経歴セクションが表示される。
-
-### プロフィールの編集
-
-`src/content/profile/index.yaml` を編集する。
-
-```yaml
-name: "Your Name"
-nameJa: "名前"
-role: "Job Title"
-avatarUrl: "https://github.com/username.png"
-```
 
 ### スタイリング
 

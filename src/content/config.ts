@@ -1,28 +1,26 @@
 import { defineCollection, z } from "astro:content";
 
-const profile = defineCollection({
-	type: "data",
-	schema: z.object({
-		name: z.string(),
-		nameJa: z.string(),
-		role: z.string(),
-		avatarUrl: z.string().url(),
-	}),
+const linkSchema = z.object({
+	label: z.string(),
+	url: z.string().url(),
+	sub: z.string(),
+	/** Simple Icons のスラグ (https://simpleicons.org) */
+	icon: z.string(),
 });
 
-const links = defineCollection({
+const site = defineCollection({
 	type: "data",
 	schema: z.object({
-		title: z.string(),
-		/** セクションの表示順（小さいほど先） */
-		order: z.number(),
-		links: z.array(
+		profile: z.object({
+			name: z.string(),
+			nameJa: z.string(),
+			role: z.string(),
+			avatarUrl: z.string().url(),
+		}),
+		sections: z.array(
 			z.object({
-				label: z.string(),
-				url: z.string().url(),
-				sub: z.string(),
-				/** Simple Icons のスラグ (https://simpleicons.org) */
-				icon: z.string(),
+				title: z.string(),
+				links: z.array(linkSchema),
 			}),
 		),
 	}),
@@ -35,4 +33,4 @@ const bio = defineCollection({
 	}),
 });
 
-export const collections = { profile, links, bio };
+export const collections = { site, bio };
