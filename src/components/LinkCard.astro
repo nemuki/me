@@ -11,7 +11,7 @@ const { label, url, sub, icon } = Astro.props;
 const iconData = getIcon(icon);
 ---
 
-<a class="card" href={url} target="_blank" rel="noopener">
+<a class="card" href={url} target="_blank" rel="noopener noreferrer">
   <span class="card-icon">
     {
       iconData ? (
@@ -36,6 +36,7 @@ const iconData = getIcon(icon);
   </span>
   <span class="card-label">{label}</span>
   <span class="card-sub">{sub}</span>
+  <span class="sr-only">（新しいタブで開く）</span>
 </a>
 
 <style>
@@ -87,5 +88,17 @@ const iconData = getIcon(icon);
   .card-sub {
     font-size: 0.72rem;
     color: var(--text-sub);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
   }
 </style>

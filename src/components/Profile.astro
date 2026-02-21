@@ -13,18 +13,18 @@ const { name, nameJa, jobTitle, avatarUrl, linkHref } = Astro.props;
 <aside class="profile">
 	{linkHref ? (
 		<a href={linkHref} class="profile-inner profile-link">
-			<img class="avatar" src={avatarUrl} alt={name} />
+			<img class="avatar" src={avatarUrl} alt={name} width="88" height="88" />
 			<div class="profile-info">
-				<p class="profile-name">{name}</p>
+				<h1 class="profile-name">{name}</h1>
 				<p class="profile-name-ja">{nameJa}</p>
 				<p class="profile-role">{jobTitle}</p>
 			</div>
 		</a>
 	) : (
 		<div class="profile-inner">
-			<img class="avatar" src={avatarUrl} alt={name} />
+			<img class="avatar" src={avatarUrl} alt={name} width="88" height="88" />
 			<div class="profile-info">
-				<p class="profile-name">{name}</p>
+				<h1 class="profile-name">{name}</h1>
 				<p class="profile-name-ja">{nameJa}</p>
 				<p class="profile-role">{jobTitle}</p>
 				<slot />
